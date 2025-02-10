@@ -2,7 +2,6 @@ package com.example.repoitory;
 
 import com.example.model.Article;
 import com.example.model.ArticleId;
-import com.example.servise.ArticleServise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -11,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class dbArticleRepository implements ArticleRepository {
-  private static final Logger LOG = LoggerFactory.getLogger(dbArticleRepository.class);
+public class DbArticleRepository implements ArticleRepository {
+  private static final Logger LOG = LoggerFactory.getLogger(DbArticleRepository.class);
   private final List<Article> repository = new ArrayList<>();
 
   public ArticleId generateId() {

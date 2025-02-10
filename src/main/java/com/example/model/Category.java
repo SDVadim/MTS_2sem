@@ -1,3 +1,12 @@
 package com.example.model;
 
-public record Category(CategoryId categoryId, String name, UserId id){}
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class Category{
+  CategoryId categoryId;
+  String name;
+  UserId userId;
+}

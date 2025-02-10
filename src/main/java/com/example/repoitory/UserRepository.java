@@ -23,7 +23,7 @@ public class UserRepository {
 
   public UserId create(UserData userData) {
     UserId id = generateId();
-    User user = User.builder().name(userData.name()).password(userData.password()).build();
+    User user = User.builder().userId(id).name(userData.getName()).password(userData.getPassword()).build();
     userRepository.add(user);
     return id;
   }
