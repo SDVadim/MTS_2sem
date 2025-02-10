@@ -3,7 +3,7 @@ package com.example.servise;
 import com.example.model.Category;
 import com.example.model.CategoryId;
 import com.example.model.UserId;
-import com.example.repoitory.CategoryRepository;
+import com.example.repoitory.DbCategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +12,14 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CategoryService {
-  private final CategoryRepository categoryRepository;
+  private final DbCategoryRepository categoryRepository;
 
   public CategoryId createCategory(String name, Long userId) {
     return categoryRepository.createCategory(name, new UserId(userId));
   }
 
   public List<Category> findAll(Long userId) {
-    return categoryRepository.findAll(new UserId(userId));
+    return categoryRepository.findAllCategories(new UserId(userId));
   }
 
   public Category getCategory(Long categoryId) {

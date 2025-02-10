@@ -6,12 +6,9 @@ import com.example.model.ArticleId;
 import java.util.List;
 
 public interface ArticleRepository {
+  List<Article> findAllArticles();
 
-  ArticleId generateId();
+  ArticleId createArticle(String name, String url);
 
-  List<Article> findAll();
-
-  ArticleId create(String name, String url);
-
-  void delete(ArticleId articleId);
+  void deleteArticle(ArticleId articleId);
 }

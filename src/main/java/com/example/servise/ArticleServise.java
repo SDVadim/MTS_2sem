@@ -15,23 +15,21 @@ import org.slf4j.LoggerFactory;
 @Service
 @AllArgsConstructor
 public class ArticleServise {
-  private static final Logger LOG = LoggerFactory.getLogger(ArticleServise.class);
   ArticleRepository articleRepository;
 
   public Map<Article, Category> getArticles(Long userId) {
-    LOG.info("Получили список статей и категорий");
     return null;
   }
 
   public List<Article> findAll() {
-    return articleRepository.findAll();
+    return articleRepository.findAllArticles();
   }
 
   public ArticleId create(String name, String url) {
-    return articleRepository.create(name, url);
+    return articleRepository.createArticle(name, url);
   }
 
-  public void delete(ArticleId articleId) {
-    articleRepository.delete(articleId);
+  public void delete(Long articleId) {
+    articleRepository.deleteArticle(new ArticleId(articleId));
   }
 }

@@ -1,3 +1,3 @@
 package com.example.model;
 
-public record ArticleId(long id){}
+public record ArticleId(long articleId){}
