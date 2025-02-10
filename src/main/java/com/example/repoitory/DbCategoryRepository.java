@@ -68,7 +68,6 @@ public class DbCategoryRepository implements CategoryRepository{
     for (Category category : categoryList) {
       if (category.getUserId().equals(userId)) {
         categoryList.remove(category);
-        LOG.info("Категория с ID: {} удалена", category.getCategoryId());
       }
     }
     LOG.info("Все категории пользователя {} удалены", userId);

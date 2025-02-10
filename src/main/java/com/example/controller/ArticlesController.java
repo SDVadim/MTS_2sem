@@ -2,7 +2,6 @@ package com.example.controller;
 
 
 import com.example.model.Article;
-import com.example.model.ArticleId;
 import com.example.model.Category;
 import com.example.servise.ArticleServise;
 import lombok.AllArgsConstructor;
