@@ -3,6 +3,7 @@ package com.example.repoitory;
 import com.example.model.User;
 import com.example.model.UserData;
 import com.example.model.UserId;
+import com.example.model.UserName;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,5 +41,28 @@ public class DbUserRepository implements UserRepository{
         LOG.info("Пользователь с id: {} удален", userId);
       }
     }
+  }
+
+  public User getUser(UserId userId) {
+    for (User user : userList) {
+      if (user.getUserId().equals(userId)) {
+        LOG.info("Пользователь с ID: {} найден", userId);
+        return user;
+      }
+    }
+    LOG.info("Пользователь с данным ID не найден");
+    return null;
+  }
+
+  public User updateUser(UserId userId, UserData userData) {
+    User newUser = User.builder().userId(userId).name(userData.getName()).password(userData.getPassword()).build();
+    userList.add(newUser);
+    LOG.info("Обновили данные пользователя: {} с ID: {}", userData.getName(), userId);
+    return newUser;
+  }
+
+  public void updateName(User user) {
+    userList.add(user);
+    LOG.
   }
 }
