@@ -1,9 +1,6 @@
 package com.example.api;
 
-import com.example.model.User;
-import com.example.model.UserData;
-import com.example.model.UserId;
-import com.example.model.UserName;
+import com.example.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -53,6 +50,18 @@ public interface UserApi {
   ResponseEntity<User> updateUserName(
     @RequestBody UserName userName,
     @Parameter(name = "ID пользователя")
+    @PathVariable Long userId
+  );
+
+  @Operation(summary = "Обновить пароль пользователя")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Пароль обновлен"),
+    @ApiResponse(responseCode = "404", description = "Пользователь с таким ID не существует")
+  })
+  @PatchMapping("/update/password/{userId}")
+  ResponseEntity<User> updateUserPassword(
+    @RequestBody UserPassword userPassword,
+    @Parameter(description = "ID пользователя")
     @PathVariable Long userId
   );
 }

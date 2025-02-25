@@ -25,5 +25,4 @@ public interface ArticleApi {
       @Parameter(description = "ID ")
       @PathVariable Long uerId
   );
-
 }

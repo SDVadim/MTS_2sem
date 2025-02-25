@@ -3,7 +3,6 @@ package com.example.repoitory;
 import com.example.model.User;
 import com.example.model.UserData;
 import com.example.model.UserId;
-import com.example.model.UserName;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,8 +60,8 @@ public class DbUserRepository implements UserRepository{
     return newUser;
   }
 
-  public void updateName(User user) {
+  public void updateSmth(User user) {
     userList.add(user);
-    LOG.
+    LOG.info("Пользователь обновлен");
   }
 }

@@ -5,6 +5,7 @@ import com.example.model.Category;
 import com.example.model.CategoryData;
 import com.example.model.CategoryId;
 import com.example.servise.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,8 @@ import java.util.List;
 
 @RestController
 public class CategoriesController implements CategoryApi {
+
+  @Autowired
   private CategoryService categoryService;
 
   @Override
@@ -37,12 +40,16 @@ public class CategoriesController implements CategoryApi {
 
   @Override
   public ResponseEntity<Void> deleteCategory(Long categoryId) {
-    categoryService.deleteCategory(categoryId);
-    return ResponseEntity.noContent().build();
+    try {
+      categoryService.deleteCategory(categoryId);
+      return ResponseEntity.noContent().build();
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 
   @Override
-  public ResponseEntity<Void> deleteUser(Long userId) {
+  public ResponseEntity<Void> deleteUser (Long userId) {
     categoryService.deleteUser(userId);
     return ResponseEntity.noContent().build();
   }

@@ -54,7 +54,6 @@ public interface CategoryApi {
     @PathVariable Long userId
   );
 
-
   @Operation(summary = "Получить категорию по ID")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "Категория найдена"),
