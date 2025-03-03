@@ -4,11 +4,12 @@ spring:
   security:
     user:
       name: admin
-      password: admin
+      password: secret
 springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+
 server:
   port: 8080
 management:
