@@ -3,6 +3,8 @@ package com.example.servise;
 import com.example.model.*;
 import com.example.repoitory.DbUserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class UsersService {
   private DbUserRepository userRepository;
 
+  @Retryable(retryFor = NoFindUserException.class, maxAttempts = 5, backoff = @Backoff(delay = 10_000))
   public UserId createUser(UserData userData) {
     return userRepository.createUser(userData);
   }

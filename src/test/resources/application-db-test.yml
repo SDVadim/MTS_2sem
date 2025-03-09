@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:13:testdb
+    username: user
+    password: password
+  application:
+    name: spring-test-db
+server:
+  port: 8082

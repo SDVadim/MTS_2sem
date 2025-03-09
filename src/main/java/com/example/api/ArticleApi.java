@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,7 +22,7 @@ public interface ArticleApi {
   @Operation(summary = "Получить все статьи по id пользователя")
   @ApiResponse(responseCode = "200", description = "Статьи найдены")
   @GetMapping("/{id}")
-  ResponseEntity<Map<Article, Category>> getArticles(
+  CompletableFuture<ResponseEntity<Map<Article, Category>>> getArticles(
       @Parameter(description = "ID ")
       @PathVariable Long uerId
   );
