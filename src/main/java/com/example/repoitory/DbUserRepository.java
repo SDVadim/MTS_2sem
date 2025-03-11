@@ -41,4 +41,27 @@ public class DbUserRepository implements UserRepository{
       }
     }
   }
+
+  public User getUser(UserId userId) {
+    for (User user : userList) {
+      if (user.getUserId().equals(userId)) {
+        LOG.info("Пользователь с ID: {} найден", userId);
+        return user;
+      }
+    }
+    LOG.info("Пользователь с данным ID не найден");
+    return null;
+  }
+
+  public User updateUser(UserId userId, UserData userData) {
+    User newUser = User.builder().userId(userId).name(userData.getName()).password(userData.getPassword()).build();
+    userList.add(newUser);
+    LOG.info("Обновили данные пользователя: {} с ID: {}", userData.getName(), userId);
+    return newUser;
+  }
+
+  public void updateSmth(User user) {
+    userList.add(user);
+    LOG.info("Пользователь обновлен");
+  }
 }

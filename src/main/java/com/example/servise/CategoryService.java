@@ -1,6 +1,7 @@
 package com.example.servise;
 
 import com.example.model.Category;
+import com.example.model.CategoryData;
 import com.example.model.CategoryId;
 import com.example.model.UserId;
 import com.example.repoitory.DbCategoryRepository;
@@ -14,11 +15,11 @@ import java.util.List;
 public class CategoryService {
   private final DbCategoryRepository categoryRepository;
 
-  public CategoryId createCategory(String name, Long userId) {
-    return categoryRepository.createCategory(name, new UserId(userId));
+  public CategoryId createCategory(CategoryData categoryData, Long userId) {
+    return categoryRepository.createCategory(categoryData.getName(), new UserId(userId));
   }
 
-  public List<Category> findAll(Long userId) {
+  public List<Category> findAllCategories(Long userId) {
     return categoryRepository.findAllCategories(new UserId(userId));
   }
 

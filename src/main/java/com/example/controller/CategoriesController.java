@@ -1,42 +1,56 @@
 package com.example.controller;
 
+import com.example.api.CategoryApi;
 import com.example.model.Category;
 import com.example.model.CategoryData;
 import com.example.model.CategoryId;
 import com.example.servise.CategoryService;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
-@AllArgsConstructor
-public class CategoriesController {
-  private final CategoryService categoryService;
+public class CategoriesController implements CategoryApi {
 
-  @PostMapping("/create")
-  public CategoryId createCategory(@RequestBody CategoryData categoryData) {
-    return categoryService.createCategory(categoryData.getName(), categoryData.getUserId());
+  @Autowired
+  private CategoryService categoryService;
+
+  @Override
+  public ResponseEntity<Category> updateCategory(CategoryData categoryData, Long categoryId) {
+    return null;
   }
 
-  @GetMapping("/user/{userId}")
-  public List<Category> getAllCategories(@PathVariable Long userId) {
-    return categoryService.findAll(userId);
+  @Override
+  public ResponseEntity<CategoryId> createCategory(CategoryData categoryData, Long userId) {
+    return ResponseEntity.status(HttpStatus.OK).body(categoryService.createCategory(categoryData, userId));
   }
 
-  @GetMapping("/{categoryId}")
-  public Category getCategory(@PathVariable Long categoryId) {
-    return categoryService.getCategory(categoryId);
+  @Override
+  public ResponseEntity<List<Category>> getAllCategories(Long userId) {
+    return ResponseEntity.status(HttpStatus.OK).body(categoryService.findAllCategories(userId));
   }
 
-  @DeleteMapping("/delete/{categoryId}")
-  public void deleteCategory(@PathVariable Long categoryId) {
-    categoryService.deleteCategory(categoryId);
+  @Override
+  public ResponseEntity<Category> getCategory(Long categoryId) {
+    return ResponseEntity.status(HttpStatus.OK).body(categoryService.getCategory(categoryId));
   }
 
-  @DeleteMapping("/delete/user/{userId}")
-  public void deleteUser(@PathVariable Long userId) {
+  @Override
+  public ResponseEntity<Void> deleteCategory(Long categoryId) {
+    try {
+      categoryService.deleteCategory(categoryId);
+      return ResponseEntity.noContent().build();
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+  }
+
+  @Override
+  public ResponseEntity<Void> deleteUser (Long userId) {
     categoryService.deleteUser(userId);
+    return ResponseEntity.noContent().build();
   }
 }
