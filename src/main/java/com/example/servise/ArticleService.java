@@ -1,28 +1,30 @@
 package com.example.servise;
 
 import com.example.model.Article;
-import com.example.model.Category;
-import com.example.model.UserId;
-import com.example.repoitory.DbArticleRepository;
+import com.example.repoitory.ArticleRepository;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ArticleService {
-  public DbArticleRepository articleRepository;
-
-  public ArticleService(DbArticleRepository articleRepository) {
-    this.articleRepository = articleRepository;
-  }
+  private final ArticleRepository articleRepository;
 
   @Async
-  public CompletableFuture<Map<Article, Category>> getArticles(UserId userId) {
-    Map<Article, Category> articles = articleRepository.getArticles(userId);
+  @Transactional
+  public CompletableFuture<List<Article>> getArticles(Long userId) {
+    log.info("Getting articles for user with id {}", userId);
+
+    List<Article> articles = articleRepository.findAll();
+    log.info("Articles found: {}", articles);
+
     return CompletableFuture.completedFuture(articles);
   }
 }

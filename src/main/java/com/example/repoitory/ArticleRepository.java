@@ -1,14 +1,8 @@
 package com.example.repoitory;
 
 import com.example.model.Article;
-import com.example.model.ArticleId;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface ArticleRepository {
-  List<Article> findAllArticles();
-
-  ArticleId createArticle(String name, String url);
-
-  void deleteArticle(ArticleId articleId);
-}
+@Repository
+public interface ArticleRepository extends JpaRepository<Article, Long> {}

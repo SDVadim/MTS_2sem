@@ -1,7 +1,7 @@
 package com.example.api;
 
 import com.example.model.Category;
-import com.example.model.CategoryData;
+import com.example.model.request.CategoryData;
 import com.example.model.CategoryId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,18 +17,6 @@ import java.util.List;
 @RequestMapping("/api/categories")
 @Tag(name = "Category API", description = "Управление категориями")
 public interface CategoryApi {
-  @Operation(summary = "Обновить категорию")
-  @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "Данные обновлены"),
-    @ApiResponse(responseCode = "404", description = "Категория с данным ID не существует")
-  })
-  @PutMapping("/update/{categoryId}")
-  ResponseEntity<Category> updateCategory(
-    @RequestBody CategoryData categoryData,
-    @Parameter(description = "ID категории")
-    @PathVariable Long categoryId
-  );
-
 
   @Operation(summary = "Создать категорию для пользователя")
   @ApiResponses({

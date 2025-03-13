@@ -1,12 +1,29 @@
 package com.example.model;
 
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
-@Data
-@Builder
+@Entity
+@Table(name = "categories")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category{
-  CategoryId categoryId;
+
+  @Getter
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long categoryId;
+
+  @Getter
+  @NotNull(message = "Name is required")
   String name;
-  UserId userId;
+
+  @Getter
+  @NotNull(message = "User ID is required")
+  Long userId;
+
+  public Category(String name, Long userId) {
+    this.name = name;
+    this.userId = userId;
+  }
 }

@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.api.CategoryApi;
 import com.example.model.Category;
-import com.example.model.CategoryData;
+import com.example.model.request.CategoryData;
 import com.example.model.CategoryId;
 import com.example.servise.CategoryService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -23,11 +23,6 @@ public class CategoriesController implements CategoryApi {
   private CategoryService categoryService;
 
   @Override
-  public ResponseEntity<Category> updateCategory(CategoryData categoryData, Long categoryId) {
-    return null;
-  }
-
-  @Override
   public ResponseEntity<CategoryId> createCategory(CategoryData categoryData, Long userId) {
     return ResponseEntity.status(HttpStatus.OK).body(categoryService.createCategory(categoryData, userId));
   }
@@ -39,7 +34,7 @@ public class CategoriesController implements CategoryApi {
 
   @Override
   public ResponseEntity<Category> getCategory(Long categoryId) {
-    return ResponseEntity.status(HttpStatus.OK).body(categoryService.getCategory(categoryId));
+    return ResponseEntity.status(HttpStatus.OK).body(categoryService.findCategoryById(categoryId));
   }
 
   @Override

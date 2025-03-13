@@ -1,4 +1,17 @@
 spring:
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tgBot
+    username: postgres
+    password: password
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: validate
+
   application:
     name: spring-with-openapi
   security:

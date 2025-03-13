@@ -1,10 +1,8 @@
 package com.example.repoitory;
 
-import com.example.model.UserData;
-import com.example.model.UserId;
+import com.example.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository {
-  UserId createUser(UserData userData);
-
-  void deleteUser(UserId userId);
-}
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {}

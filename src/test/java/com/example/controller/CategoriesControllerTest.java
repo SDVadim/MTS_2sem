@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.MtsHmApplication;
 import com.example.model.Category;
-import com.example.model.CategoryData;
+import com.example.model.request.CategoryData;
 import com.example.model.CategoryId;
 import com.example.model.UserId;
 import com.example.security.SecurityConfig;
