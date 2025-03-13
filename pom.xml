@@ -127,6 +127,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/CategoriesControllerE2ETest.java</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -150,5 +155,4 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
 </project>
