@@ -1,39 +1,28 @@
 spring:
-
   datasource:
-    url: jdbc:postgresql://localhost:5432/tgBot
+    url: jdbc:postgresql://localhost:5432/courses_app_v2
     username: postgres
     password: password
   jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
     hibernate:
-      ddl-auto: validate
-
-  application:
-    name: spring-with-openapi
-  security:
-    user:
-      name: admin
-      password: secret
-springdoc:
-  swagger-ui:
+      ddl-auto: update
+  flyway:
     enabled: true
-    path: /swagger-ui.html
+    locations: classpath:db/migration
 
-server:
-  port: 8080
-management:
+
+  management:
   endpoints:
     web:
       exposure:
         include: "*"
         exclude: shutdown
       base-path: /admin/actuator
-
-
+server:
+  tomcat:
+    threads:
+      max: 201
+      min-spare-threads: 11
 resilience4j:
   ratelimiter:
     instances:
@@ -49,3 +38,4 @@ resilience4j:
         permitted-number-of-calls-in-half-open-state: 3
         sliding-window-type: count_based
         sliding-window-size: 10
+

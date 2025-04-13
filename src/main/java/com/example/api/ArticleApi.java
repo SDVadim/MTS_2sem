@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/articles")
 @Tag(name = "Article API", description = "Управление статьями")
 public interface ArticleApi {
   @Operation(summary = "Получить все статьи по id пользователя")

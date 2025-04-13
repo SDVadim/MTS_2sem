@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.api.CategoryApi;
 import com.example.model.Category;
 import com.example.model.request.CategoryData;
-import com.example.model.CategoryId;
 import com.example.servise.CategoryService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
@@ -23,7 +22,7 @@ public class CategoriesController implements CategoryApi {
   private CategoryService categoryService;
 
   @Override
-  public ResponseEntity<CategoryId> createCategory(CategoryData categoryData, Long userId) {
+  public ResponseEntity<Category> createCategory(CategoryData categoryData, Long userId) {
     return ResponseEntity.status(HttpStatus.OK).body(categoryService.createCategory(categoryData, userId));
   }
 

@@ -2,7 +2,6 @@ package com.example.api;
 
 import com.example.model.Category;
 import com.example.model.request.CategoryData;
-import com.example.model.CategoryId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("/api/categories")
 @Tag(name = "Category API", description = "Управление категориями")
 public interface CategoryApi {
@@ -24,7 +22,7 @@ public interface CategoryApi {
     @ApiResponse(responseCode = "404", description = "Категория с данным ID не существует")
   })
   @PostMapping("/create/{userId}")
-  ResponseEntity<CategoryId> createCategory(
+  ResponseEntity<Category> createCategory(
     @RequestBody CategoryData categoryData,
     @Parameter(description = "ID пользователя")
     @PathVariable Long userId

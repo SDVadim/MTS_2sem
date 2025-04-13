@@ -15,7 +15,7 @@ public class UsersController implements UserApi {
   private UsersService usersService;
 
   @Override
-  public ResponseEntity<UserId> createUser(UserData userData) {
+  public ResponseEntity<User> createUser(UserData userData) {
     return ResponseEntity.status(HttpStatus.OK).body(usersService.createUser(userData));
   }
 

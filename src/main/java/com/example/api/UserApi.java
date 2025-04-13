@@ -12,14 +12,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
 @RequestMapping("/api/users")
 @Tag(name = "User API", description = "Управление пользователями")
 public interface UserApi {
   @Operation(summary = "Создать пользователя")
   @ApiResponse(responseCode = "200", description = "Пользователь создан")
   @PostMapping("/signup")
-  ResponseEntity<UserId> createUser(@RequestBody UserData userData);
+  ResponseEntity<User> createUser(@RequestBody UserData userData);
 
 
   @Operation(summary = "Удалить пользователя")

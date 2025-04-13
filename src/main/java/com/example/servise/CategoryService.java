@@ -3,9 +3,8 @@ package com.example.servise;
 import com.example.model.Category;
 import com.example.model.User;
 import com.example.model.request.CategoryData;
-import com.example.model.CategoryId;
-import com.example.repoitory.CategoryRepository;
-import com.example.repoitory.UserRepository;
+import com.example.repository.CategoryRepository;
+import com.example.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,13 +25,13 @@ public class CategoryService {
 
   @Transactional
   @CacheEvict(value = "categories", allEntries = true)
-  public CategoryId createCategory(CategoryData categoryData, Long userId) {
+  public Category createCategory(CategoryData categoryData, Long userId) {
     log.info("Creating Category with name {}", categoryData.getName());
 
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
     log.info("User found: {}, to create category", user);
 
-    Category category = new Category(categoryData.getName(), user.getUserId());
+    Category category = new Category(categoryData.getName(), user);
     log.info("Category created: {}", category);
 
     categoryRepository.save(category);
@@ -44,7 +43,7 @@ public class CategoryService {
     userRepository.save(user);
     log.info("User saved: {}", user);
 
-    return new CategoryId(category.getCategoryId());
+    return category;
   }
 
 

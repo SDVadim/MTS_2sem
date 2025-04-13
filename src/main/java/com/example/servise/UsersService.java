@@ -2,7 +2,7 @@ package com.example.servise;
 
 import com.example.model.*;
 import com.example.model.request.UserData;
-import com.example.repoitory.UserRepository;
+import com.example.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ public class UsersService {
 
   @Transactional
   @Retryable(retryFor = NoFindUserException.class, maxAttempts = 5, backoff = @Backoff(delay = 10_000))
-  public UserId createUser(UserData userData) {
+  public User createUser(UserData userData) {
     log.info("Creating User with name {}", userData.getName());
 
     User user = new User(userData.getName(), userData.getPassword());
@@ -27,7 +27,7 @@ public class UsersService {
     userRepository.save(user);
     log.info("User saved: {}", user);
 
-    return new UserId(user.getUserId());
+    return user;
   }
 
   @Transactional
