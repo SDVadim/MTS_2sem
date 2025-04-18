@@ -1,21 +1,41 @@
 spring:
-  application:
-    name: spring-with-openapi
-  security:
-    user:
-      name: admin
-      password: secret
-springdoc:
-  swagger-ui:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/courses_app_v2
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  flyway:
     enabled: true
-    path: /swagger-ui.html
+    locations: classpath:db/migration
 
-server:
-  port: 8080
-management:
+
+  management:
   endpoints:
     web:
       exposure:
         include: "*"
         exclude: shutdown
       base-path: /admin/actuator
+server:
+  tomcat:
+    threads:
+      max: 201
+      min-spare-threads: 11
+resilience4j:
+  ratelimiter:
+    instances:
+      apiRateLimiter:
+        limit-for-period: 5
+        limit-refresh-period: 10s
+        timeout-duration: 0
+  circuitbreaker:
+    instances:
+      apiCircuitBreaker:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-type: count_based
+        sliding-window-size: 10
+
