@@ -10,6 +10,7 @@ import java.util.ArrayList;
 @Data
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "users")
 public class User {
 
   @Id
