@@ -3,8 +3,6 @@ package com.example.controller;
 import com.example.api.UserApi;
 import com.example.model.*;
 import com.example.model.request.UserData;
-import com.example.model.request.UserName;
-import com.example.model.request.UserPassword;
 import com.example.servise.UsersService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.example.servise;
 
-import com.example.model.*;
+import com.example.model.User;
 import com.example.model.request.UserData;
 import com.example.repository.UserRepository;
 import jakarta.transaction.Transactional;

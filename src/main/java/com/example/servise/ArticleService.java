@@ -1,14 +1,16 @@
 package com.example.servise;
 
-import com.example.model.*;
-import com.example.repository.*;
+import com.example.model.Article;
+import com.example.repository.ArticleRepository;
+import com.example.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
