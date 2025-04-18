@@ -32,6 +32,7 @@ public class Article {
   }
 
   @Getter
+  @Setter
   @NotNull(message = "Category is required")
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "Category", nullable = false)

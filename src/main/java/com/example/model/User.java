@@ -37,7 +37,7 @@ public class User {
   }
 
   @Getter
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private final List<Category> categories = new ArrayList<>();
 
   public List<Category> getCategories() {
