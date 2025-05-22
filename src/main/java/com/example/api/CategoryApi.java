@@ -2,6 +2,7 @@ package com.example.api;
 
 import com.example.model.Category;
 import com.example.model.request.CategoryData;
+import com.fasterxml.jackson.core.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,7 +34,7 @@ public interface CategoryApi {
     @RequestBody CategoryData categoryData,
     @Parameter(description = "ID пользователя")
     @PathVariable Long userId
-  );
+  ) throws JsonProcessingException;
 
 
   @Operation(summary = "Получить все доступные категории для данного пользователя")
@@ -45,7 +46,7 @@ public interface CategoryApi {
   ResponseEntity<List<Category>> getAllCategories(
     @Parameter(description = "ID пользователя")
     @PathVariable Long userId
-  );
+  ) throws JsonProcessingException;
 
   @Operation(summary = "Получить категорию по ID")
   @ApiResponses({
@@ -73,5 +74,5 @@ public interface CategoryApi {
   @DeleteMapping("/delete/user/{userId}")
   ResponseEntity<Void> deleteUser(
     @Parameter(description = "ID пользователя") @PathVariable Long userId
-  );
+  ) throws JsonProcessingException;
 }

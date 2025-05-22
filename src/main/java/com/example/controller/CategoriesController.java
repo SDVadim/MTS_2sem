@@ -4,6 +4,7 @@ import com.example.api.CategoryApi;
 import com.example.model.Category;
 import com.example.model.request.CategoryData;
 import com.example.servise.CategoryService;
+import com.fasterxml.jackson.core.*;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,12 @@ public class CategoriesController implements CategoryApi {
   private CategoryService categoryService;
 
   @Override
-  public ResponseEntity<Category> createCategory(CategoryData categoryData, Long userId) {
+  public ResponseEntity<Category> createCategory(CategoryData categoryData, Long userId) throws JsonProcessingException {
     return ResponseEntity.status(HttpStatus.OK).body(categoryService.createCategory(categoryData, userId));
   }
 
   @Override
-  public ResponseEntity<List<Category>> getAllCategories(Long userId) {
+  public ResponseEntity<List<Category>> getAllCategories(Long userId) throws JsonProcessingException {
     return ResponseEntity.status(HttpStatus.OK).body(categoryService.findAllCategories(userId));
   }
 
@@ -47,7 +48,7 @@ public class CategoriesController implements CategoryApi {
   }
 
   @Override
-  public ResponseEntity<Void> deleteUser (Long userId) {
+  public ResponseEntity<Void> deleteUser (Long userId) throws JsonProcessingException {
     categoryService.deleteUser(userId);
     return ResponseEntity.noContent().build();
   }

@@ -19,7 +19,6 @@ import lombok.Setter;
 import java.util.List;
 import java.util.ArrayList;
 
-@Data
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")

@@ -1,10 +1,9 @@
 package com.example.servise;
 
-import com.example.model.Category;
-import com.example.model.User;
+import com.example.model.*;
 import com.example.model.request.CategoryData;
-import com.example.repository.CategoryRepository;
-import com.example.repository.UserRepository;
+import com.example.repository.*;
+import com.fasterxml.jackson.core.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +22,11 @@ public class CategoryService {
 
   private final CategoryRepository categoryRepository;
   private final UserRepository userRepository;
+  private final KafkaProducerService kafkaProducerService;
 
   @Transactional
   @CacheEvict(value = "categories", allEntries = true)
-  public Category createCategory(CategoryData categoryData, Long userId) {
+  public Category createCategory(CategoryData categoryData, Long userId) throws JsonProcessingException {
     log.info("Creating Category with name {}", categoryData.getName());
 
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
@@ -43,14 +44,28 @@ public class CategoryService {
     userRepository.save(user);
     log.info("User saved: {}", user);
 
+    kafkaProducerService.sendAuditMessage(DtoMessage.builder()
+        .userId(userId)
+        .eventTime(Instant.now())
+        .eventType(Action.INSERT.name())
+        .eventDetails("Получены все категории пользователя")
+        .build());
+
     return category;
   }
 
 
   @Transactional
   @Cacheable(value = "categories", key = "#userId")
-  public List<Category> findAllCategories(Long userId) {
+  public List<Category> findAllCategories(Long userId) throws JsonProcessingException {
     log.info("Finding all categories");
+
+    kafkaProducerService.sendAuditMessage(DtoMessage.builder()
+        .userId(userId)
+        .eventTime(Instant.now())
+        .eventType(Action.SELECT.name())
+        .eventDetails("Получены все категории пользователя")
+        .build());
 
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
     log.info("User found: {}", user);
@@ -69,6 +84,8 @@ public class CategoryService {
   public Category findCategoryById(Long categoryId) {
     log.info("findById({})", categoryId);
 
+
+
     Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Category not found"));
     log.info("Category found: {}", category);
 
@@ -85,11 +102,13 @@ public class CategoryService {
     }
     categoryRepository.deleteById(categoryId);
     log.info("Category deleted");
+
+
   }
 
   @Transactional
   @CacheEvict(value = "categories", key = "#userId")
-  public void deleteUser(Long userId) {
+  public void deleteUser(Long userId) throws JsonProcessingException {
     log.info("Deleting all categories for user with id {}", userId);
 
     User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
@@ -99,6 +118,13 @@ public class CategoryService {
       categoryRepository.delete(category);
       log.info("Category deleted: {}", category);
     }
+
+    kafkaProducerService.sendAuditMessage(DtoMessage.builder()
+        .userId(userId)
+        .eventTime(Instant.now())
+        .eventType(Action.SELECT.name())
+        .eventDetails("Получены все категории пользователя")
+        .build());
     log.info("Categories deleted");
   }
 }

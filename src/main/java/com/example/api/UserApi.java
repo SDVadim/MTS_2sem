@@ -2,6 +2,7 @@ package com.example.api;
 
 import com.example.model.*;
 import com.example.model.request.UserData;
+import com.fasterxml.jackson.core.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +23,7 @@ public interface UserApi {
   @Operation(summary = "Создать пользователя")
   @ApiResponse(responseCode = "200", description = "Пользователь создан")
   @PostMapping("/signup")
-  ResponseEntity<User> createUser(@RequestBody UserData userData);
+  ResponseEntity<User> createUser(@RequestBody UserData userData) throws JsonProcessingException;
 
 
   @Operation(summary = "Удалить пользователя")
@@ -31,7 +32,7 @@ public interface UserApi {
   ResponseEntity<Void> deleteUser(
     @Parameter(name = "ID пользователя")
     @PathVariable Long userId
-  );
+  ) throws JsonProcessingException;
 
 
   @Operation(summary = "Обновить пользователя")
@@ -44,5 +45,5 @@ public interface UserApi {
     @RequestBody UserData userData,
     @Parameter(name = "ID пользователя")
     @PathVariable Long userId
-  );
+  ) throws JsonProcessingException;
 }

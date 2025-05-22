@@ -1,6 +1,7 @@
 package com.example.api;
 
 import com.example.model.Article;
+import com.fasterxml.jackson.core.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,5 +23,5 @@ public interface ArticleApi {
   CompletableFuture<ResponseEntity<List<Article>>> getArticles(
       @Parameter(description = "ID ")
       @PathVariable Long uerId
-  );
+  ) throws JsonProcessingException;
 }
