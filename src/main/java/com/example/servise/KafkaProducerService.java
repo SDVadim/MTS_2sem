@@ -1,7 +1,6 @@
 package com.example.servise;
 
-
-import com.example.model.*;
+import com.example.model.DtoMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;

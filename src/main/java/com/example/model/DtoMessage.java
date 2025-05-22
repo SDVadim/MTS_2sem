@@ -1,10 +1,13 @@
 package com.example.model;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.*;
-import java.util.*;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor

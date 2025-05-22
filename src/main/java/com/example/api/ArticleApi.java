@@ -19,9 +19,9 @@ import java.util.concurrent.CompletableFuture;
 public interface ArticleApi {
   @Operation(summary = "Получить все статьи по id пользователя")
   @ApiResponse(responseCode = "200", description = "Статьи найдены")
-  @GetMapping("/{id}")
+  @GetMapping("/{userId}")
   CompletableFuture<ResponseEntity<List<Article>>> getArticles(
       @Parameter(description = "ID ")
-      @PathVariable Long uerId
+      @PathVariable Long userId
   ) throws JsonProcessingException;
 }

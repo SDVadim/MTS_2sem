@@ -1,9 +1,13 @@
 package com.example.servise;
 
-import com.example.model.*;
+import com.example.model.Action;
+import com.example.model.Category;
+import com.example.model.DtoMessage;
+import com.example.model.User;
 import com.example.model.request.CategoryData;
-import com.example.repository.*;
-import com.fasterxml.jackson.core.*;
+import com.example.repository.CategoryRepository;
+import com.example.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +15,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +52,7 @@ public class CategoryService {
         .userId(userId)
         .eventTime(Instant.now())
         .eventType(Action.INSERT.name())
-        .eventDetails("Получены все категории пользователя")
+        .eventDetails("Создана категория для пользователя")
         .build());
 
     return category;
@@ -84,8 +88,6 @@ public class CategoryService {
   public Category findCategoryById(Long categoryId) {
     log.info("findById({})", categoryId);
 
-
-
     Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Category not found"));
     log.info("Category found: {}", category);
 
@@ -102,8 +104,6 @@ public class CategoryService {
     }
     categoryRepository.deleteById(categoryId);
     log.info("Category deleted");
-
-
   }
 
   @Transactional
