@@ -37,7 +37,7 @@ public class UsersService {
         .userId(user.getUserId())
         .eventTime(Instant.now())
         .eventType(Action.INSERT.name())
-        .eventDetails("Получены все категории пользователя")
+        .eventDetails("Пользователь создан")
         .build());
 
     return user;
@@ -57,7 +57,7 @@ public class UsersService {
         .userId(userId)
         .eventTime(Instant.now())
         .eventType(Action.DELETE.name())
-        .eventDetails("Получены все категории пользователя")
+        .eventDetails("Пользователь удален")
         .build());
   }
 
@@ -80,7 +80,7 @@ public class UsersService {
         .userId(userId)
         .eventTime(Instant.now())
         .eventType(Action.UPDATE.name())
-        .eventDetails("Получены все категории пользователя")
+        .eventDetails("Обновили информацию о пользователе")
         .build());
 
     return userRepository.save(user);

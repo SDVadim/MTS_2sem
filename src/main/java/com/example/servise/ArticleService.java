@@ -21,7 +21,6 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 public class ArticleService {
   private final ArticleRepository articleRepository;
-  private final UserRepository userRepository;
   private final KafkaProducerService kafkaProducerService;
 
   @Async

@@ -123,7 +123,7 @@ public class CategoryService {
         .userId(userId)
         .eventTime(Instant.now())
         .eventType(Action.SELECT.name())
-        .eventDetails("Получены все категории пользователя")
+        .eventDetails("Пользователь и все его категории удалены")
         .build());
     log.info("Categories deleted");
   }
