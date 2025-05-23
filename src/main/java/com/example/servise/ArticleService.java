@@ -4,7 +4,6 @@ import com.example.model.Action;
 import com.example.model.Article;
 import com.example.model.DtoMessage;
 import com.example.repository.ArticleRepository;
-import com.example.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

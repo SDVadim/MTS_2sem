@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS outbox(
+    id   BIGSERIAL PRIMARY KEY,
+    value TEXT NOT NULL
+)

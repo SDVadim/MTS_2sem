@@ -1,6 +1,7 @@
 package com.example.servise;
 
-import com.example.model.DtoMessage;
+import com.example.model.*;
+import com.example.repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
@@ -19,12 +20,13 @@ import java.util.concurrent.CompletableFuture;
 public class KafkaProducerService {
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final ObjectMapper objectMapper;
+  private final OutboxRepository outboxRepository;
 
   @Value("${topic-to-send-message}")
   private String topic;
 
   public void sendAuditMessage(DtoMessage dtoMessage) throws JsonProcessingException {
     String message = objectMapper.writeValueAsString(dtoMessage);
-    CompletableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(topic, message);
+    outboxRepository.save(new OutboxRecord(message));
   }
 }
