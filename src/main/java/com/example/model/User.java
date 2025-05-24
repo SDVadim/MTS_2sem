@@ -50,9 +50,6 @@ public class User {
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private final List<Category> categories = new ArrayList<>();
 
-  public List<Category> getCategories() {
-    return categories;
-  }
 
   public void addCategory(Category category) {
     categories.add(category);
