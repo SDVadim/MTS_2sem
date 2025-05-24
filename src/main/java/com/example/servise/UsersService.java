@@ -1,48 +1,88 @@
 package com.example.servise;
 
-import com.example.model.*;
-import com.example.repoitory.DbUserRepository;
+import com.example.model.Action;
+import com.example.model.DtoMessage;
+import com.example.model.User;
+import com.example.model.request.UserData;
+import com.example.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UsersService {
-  private DbUserRepository userRepository;
+  private final UserRepository userRepository;
+  private final KafkaProducerService kafkaProducerService;
 
-  public UserId createUser(UserData userData) {
-    return userRepository.createUser(userData);
+  @Transactional
+  @Retryable(retryFor = NoFindUserException.class, maxAttempts = 5, backoff = @Backoff(delay = 10_000))
+  public User createUser(UserData userData) throws JsonProcessingException {
+    log.info("Creating User with name {}", userData.getName());
+
+    User user = new User(userData.getName(), userData.getPassword());
+    log.info("User created: {}", user);
+
+    userRepository.save(user);
+    log.info("User saved: {}", user);
+
+    kafkaProducerService.sendAuditMessage(DtoMessage.builder()
+        .userId(user.getUserId())
+        .eventTime(Instant.now())
+        .eventType(Action.INSERT.name())
+        .eventDetails("Пользователь создан")
+        .build());
+
+    return user;
   }
 
-  public void deleteUser(Long userId) {
-    userRepository.deleteUser(new UserId(userId));
+  @Transactional
+  public void deleteUser(Long userId) throws JsonProcessingException {
+    if (!userRepository.existsById(userId)) {
+      log.error("User with id {} not found", userId);
+      throw new NoFindUserException("User not found");
+    }
+
+    userRepository.deleteById(userId);
+    log.info("User with id {} deleted", userId);
+
+    kafkaProducerService.sendAuditMessage(DtoMessage.builder()
+        .userId(userId)
+        .eventTime(Instant.now())
+        .eventType(Action.DELETE.name())
+        .eventDetails("Пользователь удален")
+        .build());
   }
 
-  public User getUser(Long userId) {
-    return userRepository.getUser(new UserId(userId));
+  @Transactional
+  public User getUserByUserId(Long userId) {
+    User user = userRepository.findById(userId).orElseThrow(() -> new NoFindUserException("User not found"));
+    log.info("User found: {}", user);
+    return user;
   }
 
-  public User updateUser(UserData userData, Long userId) {
-    UserId id = new UserId(userId);
-    userRepository.deleteUser(id);
-    return userRepository.updateUser(id, userData);
-  }
+  @Transactional
+  public User updateUser(UserData userData, Long userId) throws JsonProcessingException {
+    userRepository.deleteById(userId);
+    log.info("User with id {} deleted for update", userId);
 
-  public User updateUserName(Long userId, UserName name) {
-    UserId id = new UserId(userId);
-    User user = userRepository.getUser(new UserId(userId));
-    userRepository.deleteUser(id);
-    User newUser = User.builder().userId(id).password(user.getPassword()).name(name.getName()).build();
-    userRepository.updateSmth(newUser);
-    return newUser;
-  }
+    User user = new User(userData.getName(), userData.getPassword());
+    log.info("Updated user created: {}", user);
 
-  public User updateUserPassword(Long userId, UserPassword password) {
-    UserId id = new UserId(userId);
-    User user = userRepository.getUser(id);
-    userRepository.deleteUser(id);
-    User newUser = User.builder().name(user.getName()).userId(id).password(password.getPassword()).build();
-    userRepository.updateSmth(newUser);
-    return newUser;
+    kafkaProducerService.sendAuditMessage(DtoMessage.builder()
+        .userId(userId)
+        .eventTime(Instant.now())
+        .eventType(Action.UPDATE.name())
+        .eventDetails("Обновили информацию о пользователе")
+        .build());
+
+    return userRepository.save(user);
   }
 }
